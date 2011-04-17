@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<project name="TDD_CODE_LAB" default="build" basedir=".">
+
+	<property file="${basedir}/build.properties"/>
+	
+    <target name="build">
+		<subant target="build">
+		  <fileset dir="." includes="**/build.project.xml"/>
+		</subant>
+	</target>
+	
+	<target name="run-unit-tests" description="Run UNIT tests through local jsTestDriver">
+		<exec executable="java" dir="${basedir}">
+			<arg line="-jar &quot;${tool.jstestdriver}&quot;"/>
+			<arg line="--config &quot;${jstestdriver.config.unit}&quot;"/>
+			<arg line="--server http://localhost:${jstestdriver.local.port}"/>
+			<arg line="--verbose"/>
+			<arg line="--reset"/>
+			<arg line="--captureConsole"/>
+			<arg line="--tests all"/>
+		</exec>
+	</target>	
+
+	<target name="run-acceptance-tests" description="Run ACCEPTANCE tests through local jsTestDriver">
+		<exec executable="java" dir="${basedir}">
+			<arg line="-jar &quot;${tool.jstestdriver}&quot;"/>
+			<arg line="--config &quot;${jstestdriver.config.acceptance}&quot;"/>
+			<arg line="--server http://localhost:${jstestdriver.local.port}"/>
+			<arg line="--verbose"/>
+			<arg line="--reset"/>
+			<arg line="--captureConsole"/>
+			<arg line="--tests all"/>
+		</exec>
+	</target>	
+
+	<target name="start-jstestdriver" description="(PUBLIC) Start jsTestDriver server on http://localhost:${jstestdriver.port}">
+		<echo message="Starting JsTestDriver on http://localhost:${jstestdriver.local.port}" />
+		<echo message="You need to capture a slave browser by browsing to on http://localhost:${jstestdriver.local.port}/capture" />
+		<echo message="Ctl-C to terminate" />
+		<exec executable="java" dir="${basedir}">
+			<arg line="-jar &quot;${tool.jstestdriver}&quot;"/>
+			<arg line="--port ${jstestdriver.local.port}"/>
+		</exec>
+	</target>
+	
+</project>
